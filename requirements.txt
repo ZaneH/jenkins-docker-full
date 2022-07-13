@@ -1,0 +1,3 @@
+hypothesis==4.57.1
+pytest==7.1.2
+pylint==2.14.4
