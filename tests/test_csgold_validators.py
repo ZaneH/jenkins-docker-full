@@ -40,11 +40,11 @@ def test_is_valid_account_id(account_id):
     print(account_id, result)
     assert result is True or result is False
 
-@given(a=integers(), b=integers())
-def test_just_add(a, b):
+@given(first=integers(), second=integers())
+def test_just_add(first, second):
     """
     Test the adding of two strings.
     """
-    result = validators.just_add(a, b)
-    print(a, b, result)
+    result = validators.just_add(first, second)
+    print(first, second, result)
     assert isinstance(result, int)

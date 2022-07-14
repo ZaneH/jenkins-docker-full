@@ -48,12 +48,12 @@ class CSGOLDValidators:
         return bool(re.search("[0-9]{9}", account_id))
 
     @staticmethod
-    def just_add(a, b):
+    def just_add(first, second):
         """
-        Converts a and b into numbers and adds them.
+        Converts first and second into numbers and adds them.
 
         Parameters:
-            a (string): First string to add
-            b (string): Second string to add
+            first (string): First string to add
+            second (string): Second string to add
         """
-        return int(a) + int(b)
+        return int(first) + int(second)
