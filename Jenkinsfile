@@ -28,8 +28,8 @@ pipeline {
 
         stage('Push image') {
             steps {
-                sh 'docker tag demo-app:$BUILD_NUMBER http://host.docker.internal:5000/demo-app:$BUILD_NUMBER'
-                sh 'docker push http://host.docker.internal:5000/demo-app'
+                sh 'docker tag demo-app:$BUILD_NUMBER host.docker.internal:5000/demo-app:$BUILD_NUMBER'
+                sh 'docker push host.docker.internal:5000/demo-app'
             }
         }
     }
