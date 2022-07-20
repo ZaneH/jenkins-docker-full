@@ -29,7 +29,7 @@ pipeline {
         stage('Push image') {
             steps {
                 sh 'docker tag demo-app:$BUILD_NUMBER 172.17.0.1:5000/demo-app:$BUILD_NUMBER'
-                sh 'docker push 172.17.0.1:5000/demo-app'
+                sh 'docker push 172.17.0.1:5000/demo-app:$BUILD_NUMBER'
             }
         }
     }
