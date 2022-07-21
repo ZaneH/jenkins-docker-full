@@ -2,7 +2,6 @@ FROM ubuntu:18.04
 
 # Install Docker CLI in the agent and other deps
 RUN apt-get update && apt-get install -y openjdk-11-jre curl git
-RUN pip3 install python-jenkins
 RUN apt-get install -y ca-certificates curl gnupg lsb-release apt-transport-https software-properties-common
 RUN mkdir -p /etc/apt/keyrings
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
@@ -14,10 +13,15 @@ RUN mkdir -p /home/jenkins
 RUN mkdir -p /var/lib/jenkins
 
 # Setup Python for Jenkinsfile tests, etc.
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=America/New_York
 RUN add-apt-repository ppa:deadsnakes/ppa
-RUN apt-get update && apt-get install -y python3.9
+RUN apt-get update && apt-get install -y python3.9 python3.9-distutils
 RUN curl -sSL https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
 RUN python3.9 /tmp/get-pip.py
+# For pip3.9 path
+ENV PATH "/home/jenkins/.local/bin:${PATH}"
+RUN pip3.9 install python-jenkins
 
 # Start-up script to attach the slave to the master
 ADD slave.py /var/lib/jenkins/slave.py
