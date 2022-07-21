@@ -11,6 +11,6 @@ RUN apt-get update && apt-get install -y python3 python3-pip
 COPY requirements.txt .
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
-COPY . .
+COPY ./src .
 
 ENTRYPOINT ["python3", "csgold_validators.py"]

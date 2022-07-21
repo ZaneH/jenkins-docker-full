@@ -1,4 +1,4 @@
-from jenkins import Jenkins, JenkinsException, LAUNCHER_JNLP
+from jenkins import Jenkins, LAUNCHER_JNLP
 import os
 import signal
 import sys
@@ -34,7 +34,7 @@ def slave_download(target):
     if os.path.isfile(slave_jar):
         os.remove(slave_jar)
 
-    loader = urllib.request.urlretrieve(os.environ['JENKINS_URL'] + '/jnlpJars/slave.jar', '/var/lib/jenkins/slave.jar')
+    urllib.request.urlretrieve(os.environ['JENKINS_URL'] + '/jnlpJars/slave.jar', '/var/lib/jenkins/slave.jar')
 
 def slave_run(slave_jar, jnlp_url):
     params = [ 'java', '-jar', slave_jar, '-jnlpUrl', jnlp_url ]

@@ -5,8 +5,8 @@ pipeline {
         stage('Lint') {
             steps {
                 withEnv(["HOME=${env.WORKSPACE}"]) {
-                    sh 'pip3.9 install -r requirements.txt'
-                    sh 'python3.9 -m pylint $(git ls-files "*.py") --exit-zero'
+                    sh 'pip3.9 install -r src/requirements.txt'
+                    sh 'python3.9 -m pylint $(git ls-files "src/**/*.py") --exit-zero'
                 }
             }
         }
@@ -14,14 +14,14 @@ pipeline {
         stage('Test') {
             steps {
                 withEnv(["HOME=${env.WORKSPACE}"]) {
-                    sh 'python3.9 -m pytest tests'
+                    sh 'python3.9 -m pytest src/tests'
                 }
             }
         }
 
         stage('Build image') {
             steps {
-                sh 'docker build -t demo-app:$BUILD_NUMBER -f Dockerfile .'
+                sh 'docker build -t demo-app:$BUILD_NUMBER -f Dockerfile.app .'
             }
         }
 
