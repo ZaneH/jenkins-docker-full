@@ -1,9 +1,9 @@
 FROM ubuntu:18.04
 
 # Install Docker CLI in the agent and other deps
-RUN apt-get update && apt-get install -y openjdk-11-jre curl python3 python3-pip git
+RUN apt-get update && apt-get install -y openjdk-11-jre curl git
 RUN pip3 install python-jenkins
-RUN apt-get install -y ca-certificates curl gnupg lsb-release apt-transport-https
+RUN apt-get install -y ca-certificates curl gnupg lsb-release apt-transport-https software-properties-common
 RUN mkdir -p /etc/apt/keyrings
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
@@ -12,6 +12,12 @@ RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plug
 
 RUN mkdir -p /home/jenkins
 RUN mkdir -p /var/lib/jenkins
+
+# Setup Python for Jenkinsfile tests, etc.
+RUN add-apt-repository ppa:deadsnakes/ppa
+RUN apt-get update && apt-get install -y python3.9
+RUN curl -sSL https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
+RUN python3.9 /tmp/get-pip.py
 
 # Start-up script to attach the slave to the master
 ADD slave.py /var/lib/jenkins/slave.py
@@ -26,4 +32,4 @@ ENV SLAVE_EXECUTORS "1"
 ENV SLAVE_LABELS "docker"
 ENV SLAVE_WORING_DIR ""
 ENV CLEAN_WORKING_DIR "true"
-CMD [ "python3", "-u", "/var/lib/jenkins/slave.py" ]
+CMD [ "python3.9", "-u", "/var/lib/jenkins/slave.py" ]

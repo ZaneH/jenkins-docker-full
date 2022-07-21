@@ -6,11 +6,11 @@ WORKDIR /app
 
 USER root
 
-RUN apt-get update && apt-get install -y python3.9 python3.9-pip
+RUN apt-get update && apt-get install -y python3 python3-pip
 
 COPY requirements.txt .
-RUN pip3.9 install --upgrade pip
-RUN pip3.9 install -r requirements.txt
+RUN pip3 install --upgrade pip
+RUN pip3 install -r requirements.txt
 COPY . .
 
-ENTRYPOINT ["python3.9", "csgold_validators.py"]
+ENTRYPOINT ["python3", "csgold_validators.py"]
