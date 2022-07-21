@@ -57,10 +57,8 @@ signal.signal(signal.SIGTERM, signal_handler)
 def master_ready(url):
     try:
         r = requests.head(url, verify=False, timeout=None)
-        print(r.status_code)
         return r.status_code == requests.codes.ok
-    except Exception as e:
-        print("Error polling master: " + e)
+    except:
         return False
 
 while not master_ready(slave_jar_url):
