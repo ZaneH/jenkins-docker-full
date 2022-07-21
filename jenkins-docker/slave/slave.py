@@ -28,7 +28,7 @@ def slave_create(node_name, working_dir, executors, labels):
 
 def slave_delete(node_name):
     j = Jenkins(os.environ['JENKINS_URL'], os.environ['JENKINS_USER'], os.environ['JENKINS_PASS'])
-    j.node_delete(node_name)
+    j.delete_node(node_name)
 
 def slave_download(target):
     if os.path.isfile(slave_jar):
