@@ -2,7 +2,7 @@
 FROM jenkins/jenkins:latest
 
 # Install the recommended plugins manually
-RUN jenkins-plugin-cli -p git matrix-auth workflow-aggregator docker-workflow blueocean credentials-binding
+RUN jenkins-plugin-cli -p git matrix-auth pipeline-stage-view workflow-aggregator docker-workflow blueocean credentials-binding
 
 # Setup Jenkins admin user
 ENV JENKINS_USER admin
