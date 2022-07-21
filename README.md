@@ -1,5 +1,7 @@
 # Jenkins Demo Pipeline
 
+<p align="center"><img src="https://i.imgur.com/hg1E7SB.png" width="575px" /></p>
+
 ## Purpose
 
 - Run Jenkins in Docker - `./jenkins-docker/master` and `./docker-compose.ci.yml`
