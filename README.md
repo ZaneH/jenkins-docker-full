@@ -67,3 +67,12 @@ and then push that image to our local registry as `demo-app:$BUILD_NUMBER`.
 You can confirm the entire pipeline completed by checking http://localhost:5000/v2/_catalog
 to confirm that `demo-app`, `jenkins-master`, and `jenkins-slave` are available in the
 local registry.
+
+## How to Integrate
+
+Integrating this demo with your project shouldn't be too hard as most everything is automated and (currently) up-to-date. Here are my recommendations:
+
+- Modify the `slave/Dockerfile` to fit your Jenkins pipeline. This is currently setup with the `ubuntu:18.04` base image, `python3.9` and `pip3.9`
+- Move the `Jenkinsfile` into a seperate repo with the `src/` folder containing your app's code
+  - Move `Dockerfile.app` and `.dockerignore` too
+- Use the remaining files as your CI repository
