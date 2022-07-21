@@ -21,15 +21,14 @@ pipeline {
 
         stage('Build image') {
             steps {
-                sh 'docker build -t demo-app:$BUILD_NUMBER .'
-                echo 'Built image'
+                sh 'docker build -t demo-app:$BUILD_NUMBER -f Dockerfile .'
             }
         }
 
         stage('Push image') {
             steps {
-                sh 'docker tag demo-app:$BUILD_NUMBER 172.17.0.1:5000/demo-app:$BUILD_NUMBER'
-                sh 'docker push 172.17.0.1:5000/demo-app:$BUILD_NUMBER'
+                sh 'docker tag demo-app:$BUILD_NUMBER localhost:5000/demo-app:$BUILD_NUMBER'
+                sh 'docker push localhost:5000/demo-app:$BUILD_NUMBER'
             }
         }
     }

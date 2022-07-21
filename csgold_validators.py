@@ -57,3 +57,6 @@ class CSGOLDValidators:
             second (string): Second string to add
         """
         return int(first) + int(second)
+
+if __name__ == "__main__":
+    print("Running CSGOLDValidators module as a standalone script.")
