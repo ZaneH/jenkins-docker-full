@@ -11,7 +11,7 @@
 
 ## How to Run
 
-First, we need to start he local Docker Registry:
+First, we need to start the local Docker Registry:
 
 ```bash
 # start local docker registry at localhost:5000
@@ -62,6 +62,6 @@ first build process. It will begin executing steps from within `Jenkinsfile` whi
 currently configured to lint code, run unit tests, build an image from `Dockerfile.app`
 and then push that image to our local registry as `demo-app:$BUILD_NUMBER`.
 
-You can confirm the entire pipeline completed by checking `http://localhost:5000/v2/_catalog`
+You can confirm the entire pipeline completed by checking http://localhost:5000/v2/_catalog
 to confirm that `demo-app`, `jenkins-master`, and `jenkins-slave` are available in the
 local registry.
