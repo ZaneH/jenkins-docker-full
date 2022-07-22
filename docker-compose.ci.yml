@@ -7,12 +7,12 @@ services:
       - "50000:50000"
     # Custom jenkins image
     image: localhost:5000/jenkins-master
-  jenkins-slave:
-    container_name: jenkins-slave
+  jenkins-agent:
+    container_name: jenkins-agent
     restart: always
     environment:
       - "JENKINS_URL=http://jenkins:8080"
-    image: localhost:5000/jenkins-slave
+    image: localhost:5000/jenkins-agent
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
