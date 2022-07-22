@@ -1,6 +1,6 @@
 # Jenkins Demo Pipeline
 
-<p align="center"><img src="https://i.imgur.com/hg1E7SB.png" width="575px" /></p>
+<p align="center"><img src="https://i.imgur.com/lqFbmrL.png" width="475px" /></p>
 
 ## Purpose
 
