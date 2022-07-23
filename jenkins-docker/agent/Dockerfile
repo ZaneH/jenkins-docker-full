@@ -23,17 +23,17 @@ RUN python3.9 /tmp/get-pip.py
 ENV PATH "/home/jenkins/.local/bin:${PATH}"
 RUN pip3.9 install python-jenkins
 
-# Start-up script to attach the slave to the master
-ADD slave.py /var/lib/jenkins/slave.py
+# Startup script to attach the agent to the controller
+ADD agent.py /var/lib/jenkins/agent.py
 WORKDIR /home/jenkins
 ENV JENKINS_URL "http://jenkins"
-ENV JENKINS_SLAVE_ADDRESS ""
+ENV JENKINS_AGENT_ADDRESS ""
 ENV JENKINS_USER "admin"
 ENV JENKINS_PASS "admin"
-ENV SLAVE_NAME ""
-ENV SLAVE_SECRET ""
-ENV SLAVE_EXECUTORS "1"
-ENV SLAVE_LABELS "docker"
-ENV SLAVE_WORING_DIR ""
+ENV AGENT_NAME ""
+ENV AGENT_SECRET ""
+ENV AGENT_EXECUTORS "1"
+ENV AGENT_LABELS "docker"
+ENV AGENT_WORING_DIR ""
 ENV CLEAN_WORKING_DIR "true"
-CMD [ "python3.9", "-u", "/var/lib/jenkins/slave.py" ]
+CMD [ "python3.9", "-u", "/var/lib/jenkins/agent.py" ]

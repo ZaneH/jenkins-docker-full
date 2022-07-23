@@ -4,8 +4,8 @@
 
 ## Purpose
 
-- Run Jenkins in Docker - `./jenkins-docker/master` and `./docker-compose.ci.yml`
-    - Attach build nodes as seperate containers - `./jenkins-docker/slave`
+- Run Jenkins in Docker - `./jenkins-docker/controller` and `./docker-compose.ci.yml`
+    - Attach build nodes as seperate containers - `./jenkins-docker/agent`
 - Run Jenkinsfile pipeline on our app - `./src`
     - pylint, pytest, etc. - `./Jenkinsfile`
     - Build image of our app and push to custom registry - `./Dockerfile.app`
@@ -13,41 +13,43 @@
 
 ## How to Run
 
-First, we need to start the local Docker Registry:
+You may need `DOCKER_BUILDKIT=0` to complete this pipeline.
+
+#### 1. Start the local Docker Registry:
 
 ```bash
 # start local docker registry at localhost:5000
 docker-compose -f ./docker-compose.registry.yml up
 ```
 
-Then we need `jenkins-master` and `jenkins-slave` images in our custom registry.
+Then we need `jenkins-controller` and `jenkins-agent` images in our custom registry.
 
-#### Prepare Master Image
+#### 2. Prepare Controller Image
 
 ```bash
-# build Jenkins master image and push to local registry
-pushd jenkins-docker/master
-docker build -t jenkins-master .
-docker tag jenkins-master:latest localhost:5000/jenkins-master:latest
-docker push localhost:5000/jenkins-master:latest
+# build Jenkins controller image and push to local registry
+pushd jenkins-docker/controller
+docker build -t jenkins-controller .
+docker tag jenkins-controller:latest localhost:5000/jenkins-controller:latest
+docker push localhost:5000/jenkins-controller:latest
 popd
 ```
 
-#### Prepare Slave Image
+#### 3. Prepare Agent Image
 
 ```bash
-# build Jenkins slave image and push to local registry
-pushd jenkins-docker/slave
-docker build -t jenkins-slave .
-docker tag jenkins-slave:latest localhost:5000/jenkins-slave:latest
-docker push localhost:5000/jenkins-slave:latest
+# build Jenkins agent image and push to local registry
+pushd jenkins-docker/agent
+docker build -t jenkins-agent .
+docker tag jenkins-agent:latest localhost:5000/jenkins-agent:latest
+docker push localhost:5000/jenkins-agent:latest
 popd
 ```
 
-#### Start Jenkins
+#### 4. Start Jenkins
 
 ```bash
-# pull local master and slave images and run
+# pull local controller and agent images and run
 docker-compose -f ./docker-compose.ci.yml up
 ```
 
@@ -55,7 +57,7 @@ docker-compose -f ./docker-compose.ci.yml up
 
 When Jenkins is ready, visit http://localhost:8080/ to setup your first job. The default admin credentials are `admin:admin`. Create a "Pipeline" with any name. Configure your Jenkinsfile to pull from SCM and provide credentials if necessary.
 
-The `jenkins-slave` we built & ran before will already be connected to `jenkins-master`
+The `jenkins-agent` we built & ran before will already be connected to `jenkins-controller`
 as a build node by this point. Visit http://localhost:8080/manage/computer/ to manage
 connected nodes.
 
@@ -65,14 +67,14 @@ currently configured to lint code, run unit tests, build an image from `Dockerfi
 and then push that image to our local registry as `demo-app:$BUILD_NUMBER`.
 
 You can confirm the entire pipeline completed by checking http://localhost:5000/v2/_catalog
-to confirm that `demo-app`, `jenkins-master`, and `jenkins-slave` are available in the
+to confirm that `demo-app`, `jenkins-controller`, and `jenkins-agent` are available in the
 local registry.
 
 ## How to Integrate
 
 Integrating this demo with your project shouldn't be too hard as most everything is automated and (currently) up-to-date. Here are my recommendations:
 
-- Modify the `slave/Dockerfile` to fit your Jenkins pipeline. This is currently setup with the `ubuntu:18.04` base image, `python3.9` and `pip3.9`
+- Modify the `agent/Dockerfile` to fit your Jenkins pipeline. This is currently setup with the `ubuntu:18.04` base image, `python3.9` and `pip3.9`
 - Move the `Jenkinsfile` into a seperate repo with the `src/` folder containing your app's code
   - Move `Dockerfile.app` and `.dockerignore` too
 - Use the remaining files as your CI repository
