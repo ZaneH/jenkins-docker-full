@@ -13,7 +13,9 @@
 
 ## How to Run
 
-First, we need to start the local Docker Registry:
+You may need `DOCKER_BUILDKIT=0` to complete this pipeline.
+
+#### 1. Start the local Docker Registry:
 
 ```bash
 # start local docker registry at localhost:5000
@@ -22,7 +24,7 @@ docker-compose -f ./docker-compose.registry.yml up
 
 Then we need `jenkins-controller` and `jenkins-agent` images in our custom registry.
 
-#### Prepare Controller Image
+#### 2. Prepare Controller Image
 
 ```bash
 # build Jenkins controller image and push to local registry
@@ -33,7 +35,7 @@ docker push localhost:5000/jenkins-controller:latest
 popd
 ```
 
-#### Prepare Agent Image
+#### 3. Prepare Agent Image
 
 ```bash
 # build Jenkins agent image and push to local registry
@@ -44,7 +46,7 @@ docker push localhost:5000/jenkins-agent:latest
 popd
 ```
 
-#### Start Jenkins
+#### 4. Start Jenkins
 
 ```bash
 # pull local controller and agent images and run
