@@ -19,13 +19,18 @@ RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get update && apt-get install -y python3.9 python3.9-distutils
 RUN curl -sSL https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
 RUN python3.9 /tmp/get-pip.py
+
 # For pip3.9 path
 ENV PATH "/home/jenkins/.local/bin:${PATH}"
+
+# agent.py dependency
 RUN pip3.9 install python-jenkins
 
 # Startup script to attach the agent to the controller
 ADD agent.py /var/lib/jenkins/agent.py
+
 WORKDIR /home/jenkins
+
 ENV JENKINS_URL "http://jenkins"
 ENV JENKINS_AGENT_ADDRESS ""
 ENV JENKINS_USER "admin"
@@ -36,4 +41,5 @@ ENV AGENT_EXECUTORS "1"
 ENV AGENT_LABELS "docker"
 ENV AGENT_WORING_DIR ""
 ENV CLEAN_WORKING_DIR "true"
+
 CMD [ "python3.9", "-u", "/var/lib/jenkins/agent.py" ]
