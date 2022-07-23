@@ -23,7 +23,7 @@ RUN python3.9 /tmp/get-pip.py
 ENV PATH "/home/jenkins/.local/bin:${PATH}"
 RUN pip3.9 install python-jenkins
 
-# Startup script to attach the agent to the master
+# Startup script to attach the agent to the controller
 ADD agent.py /var/lib/jenkins/agent.py
 WORKDIR /home/jenkins
 ENV JENKINS_URL "http://jenkins"

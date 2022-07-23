@@ -5,8 +5,8 @@ services:
     ports:
       - "8080:8080"
       - "50000:50000"
-    # Custom jenkins image
-    image: localhost:5000/jenkins-master
+    # Custom Jenkins image
+    image: localhost:5000/jenkins-controller
   jenkins-agent:
     container_name: jenkins-agent
     restart: always

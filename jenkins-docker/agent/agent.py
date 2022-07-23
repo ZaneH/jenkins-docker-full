@@ -54,15 +54,15 @@ def signal_handler(sig, frame):
 signal.signal(signal.SIGINT, signal_handler)
 signal.signal(signal.SIGTERM, signal_handler)
 
-def master_ready(url):
+def controller_ready(url):
     try:
         r = requests.head(url, verify=False, timeout=None)
         return r.status_code == requests.codes.ok
     except:
         return False
 
-while not master_ready(agent_jar_url):
-    print("Master not ready yet, sleeping for 10sec!")
+while not controller_ready(agent_jar_url):
+    print("Controller not ready yet, sleeping for 10sec!")
     time.sleep(10)
 
 agent_download(agent_jar)
