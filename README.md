@@ -55,7 +55,7 @@ docker-compose -f ./docker-compose.ci.yml up
 
 ## Setup a Pipeline
 
-When Jenkins is ready, visit http://localhost:8080/ to setup your first job. The default admin credentials are `admin:admin`. Create a "Pipeline" with any name. Configure your Jenkinsfile to pull from SCM and provide credentials if necessary.
+When Jenkins is ready, visit http://localhost:8080/ to setup your first job. The default admin credentials are `admin:admin`. Create a "Pipeline" with any name. Configure your Jenkinsfile to pull from your SCM (or this repo) and provide credentials if necessary.
 
 The `jenkins-agent` we built & ran before will already be connected to `jenkins-controller`
 as a build node by this point. Visit http://localhost:8080/manage/computer/ to manage
